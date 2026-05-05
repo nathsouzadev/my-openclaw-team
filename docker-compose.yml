@@ -1,0 +1,17 @@
+services:
+  openclaw:
+    build: .
+    image: open-claw-slack:latest
+    container_name: openclaw-slack
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "5010-5020:5010-5020"
+    volumes:
+      - ./data:/data
+      - ./agents/nanisca:/data/.openclaw/workspaces/pm_nanisca/.persona:ro
+      - ./config/openclaw.json.tpl:/app/config/openclaw.json.tpl:ro
+    environment:
+      GATEWAY_PORT: "5010"
+      GH_TOKEN: "${GITHUB_PRODUCT_TOKEN}"

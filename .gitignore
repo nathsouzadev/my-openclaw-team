@@ -1,0 +1,22 @@
+# Secrets — NUNCA committar
+.env
+.env.local
+.env.*.local
+
+# Estado de runtime do openclaw — contém:
+# - data/.openclaw/config.json (tokens Slack renderizados)
+# - data/.openclaw/agents/*/agent/auth-profiles.json (chaves de provider)
+# - data/.openclaw/credentials/ (credenciais de provider)
+# - data/.openclaw/logs/ (podem vazar tokens em erros)
+# - data/.openclaw/workspaces/ (histórico de conversa)
+# - data/.openclaw/tasks/, plugin-state/, identity/
+data/
+
+# Dependências e builds
+node_modules/
+*.log
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
