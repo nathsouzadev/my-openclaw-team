@@ -27,6 +27,16 @@ for var in $(compgen -v | grep -E '^AGENT_[A-Z0-9_]+_ID$'); do
   [ -n "$agent_id" ] && mkdir -p "${OPENCLAW_HOME}/workspaces/${agent_id}"
 done
 
+if [ -d /opt/superpowers/skills ]; then
+  for var in $(compgen -v | grep -E '^AGENT_[A-Z0-9_]+_ID$'); do
+    agent_id="${!var}"
+    [ -z "$agent_id" ] && continue
+    skills_dir="${OPENCLAW_HOME}/workspaces/${agent_id}/skills"
+    mkdir -p "$skills_dir"
+    ln -sfn /opt/superpowers/skills "${skills_dir}/superpowers"
+  done
+fi
+
 if [ ! -f "${OPENCLAW_HOME}/.onboarded" ]; then
   if [ -n "${OPENROUTER_API_KEY:-}" ]; then
     openclaw onboard \

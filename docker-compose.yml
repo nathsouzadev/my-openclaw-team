@@ -11,7 +11,9 @@ services:
     volumes:
       - ./data:/data
       - ./agents/nanisca:/data/.openclaw/workspaces/pm_nanisca/.persona:ro
+      - ./agents/katherine:/data/.openclaw/workspaces/review_kath/.persona:ro
       - ./config/openclaw.json.tpl:/app/config/openclaw.json.tpl:ro
+      - ./skills/superpowers/skills:/opt/superpowers/skills:ro
     environment:
       GATEWAY_PORT: "5010"
       GH_TOKEN: "${GITHUB_PRODUCT_TOKEN}"

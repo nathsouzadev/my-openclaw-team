@@ -20,6 +20,11 @@
         "id": "${AGENT_REVIEWER_ID}",
         "name": "${AGENT_REVIEWER_NAME}",
         "workspace": "/data/.openclaw/workspaces/${AGENT_REVIEWER_ID}"
+      },
+      {
+        "id": "${AGENT_TECH_LEAD_ID}",
+        "name": "${AGENT_TECH_LEAD_NAME}",
+        "workspace": "/data/.openclaw/workspaces/${AGENT_TECH_LEAD_ID}"
       }
     ]
   },
@@ -42,13 +47,11 @@
       "channels": {
         "${SLACK_PRODUCT_CHANNEL_ID}": {
           "enabled": true,
-          "requireMention": true,
-          "users": ["${SLACK_OPERATOR_USER_ID}"]
+          "requireMention": true
         },
         "${SLACK_ENG_CHANNEL_ID}": {
           "enabled": true,
-          "requireMention": true,
-          "users": ["${SLACK_OPERATOR_USER_ID}"]
+          "requireMention": true
         }
       },
       "accounts": {
@@ -61,6 +64,11 @@
           "name": "${AGENT_REVIEWER_NAME}",
           "botToken": "${AGENT_REVIEWER_SLACK_BOT_TOKEN}",
           "appToken": "${AGENT_REVIEWER_SLACK_APP_TOKEN}"
+        },
+        "${AGENT_TECH_LEAD_ACCOUNT_ID}": {
+          "name": "${AGENT_TECH_LEAD_NAME}",
+          "botToken": "${AGENT_TECH_LEAD_SLACK_BOT_TOKEN}",
+          "appToken": "${AGENT_TECH_LEAD_SLACK_APP_TOKEN}"
         }
       }
     }
@@ -73,6 +81,10 @@
     {
       "agentId": "${AGENT_REVIEWER_ID}",
       "match": { "channel": "slack", "accountId": "${AGENT_REVIEWER_ACCOUNT_ID}" }
+    },
+    {
+      "agentId": "${AGENT_TECH_LEAD_ID}",
+      "match": { "channel": "slack", "accountId": "${AGENT_TECH_LEAD_ACCOUNT_ID}" }
     }
   ],
   "messages": {

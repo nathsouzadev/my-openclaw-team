@@ -33,6 +33,8 @@ Slack workspace
 │       ├── AGENTS.md        # instruções gerais
 │       ├── SOUL.md          # personalidade / voz
 │       └── TOOLS.md         # tools customizadas (opcional)
+├── skills/
+│   └── superpowers/         # submodule git — skills compartilhadas entre todos os agentes
 ├── env.example              # placeholders — copie para .env
 ├── data/                    # volume persistente (HOME do container) — NÃO commitar
 └── .dockerignore
@@ -322,6 +324,37 @@ data/.openclaw/workspaces/<AGENT_ID>/skills/<skill>/SKILL.md
 Como `data/` é gitignore'd, skills criadas em produção não são versionadas
 automaticamente. Se quiser uma skill vir junto do template, adicione um segundo
 bind-mount apontando para uma pasta versionada (ex.: `./skills/<id>/`).
+
+### Skills compartilhadas (superpowers)
+
+[obra/superpowers](https://github.com/obra/superpowers) está incluído como
+submodule git em `skills/superpowers/` e disponibilizado para **todos** os
+agentes automaticamente.
+
+Como funciona:
+- `docker-compose.yml` monta `./skills/superpowers/skills` em
+  `/opt/superpowers/skills:ro` dentro do container.
+- `entrypoint.sh` itera sobre todos os `AGENT_*_ID` e cria um symlink
+  `data/.openclaw/workspaces/<AGENT_ID>/skills/superpowers → /opt/superpowers/skills`
+  a cada boot.
+
+Comandos úteis:
+
+```bash
+# clone inicial (já faz fetch dos submodules):
+git clone --recurse-submodules <repo-url>
+
+# se já clonou sem --recurse-submodules:
+git submodule update --init --recursive
+
+# atualizar superpowers para a última versão upstream:
+git submodule update --remote skills/superpowers
+git add skills/superpowers && git commit -m "bump superpowers"
+```
+
+Não precisa rebuild da imagem para atualizar — o bind-mount reflete o conteúdo
+do host. Basta reiniciar o container (`docker compose restart`) se quiser
+recriar os symlinks (não estritamente necessário, mas garante novos agentes).
 
 ---
 
